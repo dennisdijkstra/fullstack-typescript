@@ -10,7 +10,7 @@
     ],
     "sourceMap": true,
     "outDir": "./dist",
-    "skipDefaultLibCheck": false,
+    "skipLibCheck": true,
     "moduleResolution": "node",
     "removeComments": true,
     "noImplicitAny": true,
