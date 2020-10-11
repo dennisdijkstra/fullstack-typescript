@@ -24,8 +24,12 @@ export class User extends BaseEntity {
     updatedAt: Date;
 
     @Field()
-    @Column()
+    @Column({ unique: true })
     username!: string;
+
+    @Field()
+    @Column({ unique: true })
+    email!: string;
 
     @Column()
     password!: string;

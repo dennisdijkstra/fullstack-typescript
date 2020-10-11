@@ -1,3 +1,5 @@
+import { UserResolver } from './resolvers/user';
+import { User } from './entities/User';
 import 'reflect-metadata';
 import { Post } from './entities/Post';
 import { PostResolver } from './resolvers/post';
@@ -13,9 +15,9 @@ const main = async () => {
         type: 'postgres',
         url: process.env.DATABASE_URL,
         logging: true,
-        // synchronize: true,
+        synchronize: true,
         migrations: [path.join(__dirname, "./migrations/*")],
-        entities: [Post],
+        entities: [Post, User],
     });
     await conn.runMigrations();
 
@@ -23,7 +25,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [PostResolver],
+            resolvers: [PostResolver, UserResolver],
             validate: false,
         }),
         context: () => ({}),
