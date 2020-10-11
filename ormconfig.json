@@ -4,7 +4,12 @@
     "port": 5432,
     "username": "postgres",
     "password": "postgres",
-    "database": "firstdb",
+    "database": "test",
     "entities": ["dist/entities/*.js"],
-    "migrations": ["dist/migrations/*.js"]
+    "migrations": ["dist/migrations/*.js"],
+    "cli": {
+        "entitiesDir": "src/entity",
+        "migrationsDir": "src/migration",
+        "subscribersDir": "src/subscriber"
+    }
   }
