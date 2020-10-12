@@ -16,7 +16,7 @@ const main = async () => {
         type: 'postgres',
         url: process.env.DATABASE_URL,
         logging: true,
-        // synchronize: true,
+        synchronize: true,
         migrations: [path.join(__dirname, "./migrations/*")],
         entities: [Post, User],
     });
@@ -29,7 +29,7 @@ const main = async () => {
             resolvers: [PostResolver, UserResolver],
             validate: false,
         }),
-        context: () => ({}),
+        context: ({ req, res }) => ({ req, res }),
     });
 
     apolloServer.applyMiddleware({ app });
