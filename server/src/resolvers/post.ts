@@ -1,13 +1,11 @@
-// import { MyContext } from './../types';
 import { Post } from '../entities/Post';
-import { Resolver, Query, Ctx, Arg, Int, Mutation } from 'type-graphql';
+import { Resolver, Query, Arg, Int, Mutation } from 'type-graphql';
 import { getConnection } from 'typeorm';
 
 @Resolver()
 export class PostResolver {
     @Query(() => [Post])
     async posts(
-        // @Ctx() { req, res }: MyContext
      ): Promise<Post[]> {
         return Post.find();
     }
