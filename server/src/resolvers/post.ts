@@ -30,7 +30,7 @@ export class PostResolver {
 
     @Mutation(() => Post, { nullable: true})
     async updatePost(
-        @Arg('id') id: number,
+        @Arg('id', () => Int) id: number,
         @Arg('title') title: string
      ): Promise<Post | null> {
         const result = await getConnection()
@@ -43,12 +43,11 @@ export class PostResolver {
             return result.raw[0];
     }
 
-    @Mutation(() => Post)
+    @Mutation(() => Boolean)
     async deletePost(
-        @Arg('id') title: string
-     ): Promise<Post> {
-        return Post.create({
-            title,
-        }).save();
+        @Arg('id', () => Int) id: number
+     ): Promise<boolean> {
+        await Post.delete({ id });
+        return true;
     }
 }
