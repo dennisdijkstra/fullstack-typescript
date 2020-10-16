@@ -1,6 +1,7 @@
+import { MyContext } from './../types';
 import { getConnection } from 'typeorm';
 import { User } from './../entities/User';
-import { Resolver, Mutation, Arg, Field, InputType, ObjectType } from 'type-graphql';
+import { Resolver, Mutation, Arg, Field, InputType, ObjectType, Ctx } from 'type-graphql';
 import argon2 from 'argon2';
 
 @InputType()
@@ -35,7 +36,8 @@ class UserResponse {
 export class UserResolver {
     @Mutation(() => UserResponse)
     async register(
-        @Arg('options') options: UsernamePasswordInput
+        @Arg('options') options: UsernamePasswordInput,
+        @Ctx() { req }: MyContext
     ): Promise<UserResponse> {
         const hashedPassword = await argon2.hash(options.password)
         let user;
@@ -66,6 +68,7 @@ export class UserResolver {
                };
            }
         }
+        req.session.userId = user.id;
 
         return { user };
     }
@@ -74,6 +77,7 @@ export class UserResolver {
     async login(
         @Arg('usernameOrEmail') usernameOrEmail: string,
         @Arg('password') password: string,
+        @Ctx() { req }: MyContext
     ): Promise<UserResponse> {
         const user = await User.findOne(
             usernameOrEmail.includes("@")
@@ -104,6 +108,7 @@ export class UserResolver {
                 ],
             };
         }
+        req.session.userId = user.id;
 
         return { user };
     }

@@ -10,6 +10,9 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import { createConnection } from 'typeorm';
 import path from 'path';
+import redis from 'redis';
+import session from 'express-session';
+import connectRedis from 'connect-redis';
 
 const main = async () => {
     const conn = await createConnection({
@@ -23,6 +26,28 @@ const main = async () => {
     await conn.runMigrations();
 
     const app = express();
+
+    const RedisStore = connectRedis(session);
+    const redisClient = redis.createClient();
+
+    app.use(
+        session({
+            name: 'qid',
+            store: new RedisStore({ 
+                client: redisClient,
+                disableTouch: true,
+            }),
+            secret: 'sfhjklfelhljkaerbhebdka',
+            resave: false,
+            cookie: {
+                maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+                httpOnly: true,
+                sameSite: 'lax',
+                secure: __prod__,
+            },
+            saveUninitialized: false,
+        })
+    );
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
