@@ -1,6 +1,7 @@
 import { getConnection } from 'typeorm';
 import { User } from './../entities/User';
 import { Resolver, Mutation, Arg, Field, InputType, ObjectType } from 'type-graphql';
+import argon2 from 'argon2';
 
 @InputType()
 export class UsernamePasswordInput {
@@ -30,13 +31,13 @@ class UserResponse {
     user?: User;
 }
 
-
 @Resolver()
 export class UserResolver {
-    @Mutation(() => [User])
+    @Mutation(() => UserResponse)
     async register(
         @Arg('options') options: UsernamePasswordInput
     ): Promise<UserResponse> {
+        const hashedPassword = await argon2.hash(options.password)
         let user;
 
         try {
@@ -47,7 +48,7 @@ export class UserResolver {
             .values({
                 username: options.username,
                 email: options.email,
-                password: options.password,
+                password: hashedPassword,
             })
             .returning('*')
             .execute();
@@ -59,10 +60,10 @@ export class UserResolver {
                    errors: [
                        {
                            field: 'username',
-                           message: 'username already taken'
+                           message: 'username already taken',
                        }
-                   ]
-               }
+                   ],
+               };
            }
         }
 
