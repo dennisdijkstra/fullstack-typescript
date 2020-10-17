@@ -1,10 +1,21 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
 const Login = () => {
-    console.log('register');
+    const { register, handleSubmit, errors } = useForm();
+    const onSubmit = data => console.log(data);
 
     return (
-        <h1>Login</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <label>
+                Username:
+                <input type="text" name="username" ref={register} />
+            </label>
+            <label>
+                Password:
+                <input type="password" name="password" ref={register} />
+            </label>
+        </form>
     )
 };
 
