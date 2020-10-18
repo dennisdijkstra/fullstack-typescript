@@ -1,5 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import TextField from '../components/TextField';
 
 const Login = () => {
     const { register, handleSubmit, errors } = useForm();
@@ -7,14 +8,21 @@ const Login = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <label>
-                Username:
-                <input type="text" name="username" ref={register} />
-            </label>
-            <label>
-                Password:
-                <input type="password" name="password" ref={register} />
-            </label>
+            <TextField
+                label="Username:"
+                type="text"
+                name="username"
+                placeholder="username"
+                register={register}
+            />
+            <TextField
+                label="Password:"
+                type="password"
+                name="password"
+                placeholder="password"
+                register={register}
+            />
+            <button type="submit">Login</button>
         </form>
     )
 };

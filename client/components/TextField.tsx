@@ -13,6 +13,7 @@ const TextField: React.FC<Props> = ({ label, name, type, placeholder, register }
             <Label htmlFor={name}>{label}</Label>
             <Input
                 type={type}
+                id={name}
                 name={name}
                 ref={register}
                 placeholder={placeholder}
@@ -33,7 +34,7 @@ const Label = styled.label`
 `
 
 const Input = styled.input`
-    padding: 6px 10px;
+    padding: 10px;
     margin-bottom: 12px;
     font-size: 16px;
     border-radius: 5px;
