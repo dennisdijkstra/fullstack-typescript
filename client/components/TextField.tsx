@@ -22,8 +22,6 @@ const TextField: React.FC<Props> = ({ label, name, type, placeholder, register }
     );
 };
 
-export default TextField;
-
 const Field = styled.div`
     margin-bottom: 12px;
 `
@@ -40,3 +38,5 @@ const Input = styled.input`
     border-radius: 5px;
     border: 1px solid #000;
 `
+
+export default TextField;

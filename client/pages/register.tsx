@@ -22,13 +22,15 @@ const REGISTER = gql`
 const Register = () => {
     const [registerUser, { data }] = useMutation(REGISTER);
     const router = useRouter();
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, setError, clearErrors, errors } = useForm();
 
     const onSubmit = async (data) => {
         const response = await registerUser({ variables: { options: data } });
 
         if (response.data?.register.errors) {
-            console.log('show errors')
+            const [{ field, message }] = response.data.register.errors;
+
+            setError(field, { message });
           } else if (response.data?.register.user) {
             router.push('/');
           }
@@ -43,6 +45,7 @@ const Register = () => {
                 placeholder="username"
                 register={register}
             />
+            {errors.username && <p>{errors.username.message}</p>}
             <TextField
                 label="Email:"
                 type="text"
@@ -50,6 +53,7 @@ const Register = () => {
                 placeholder="email"
                 register={register}
             />
+            {errors.email && <p>{errors.email.message}</p>}
             <TextField
                 label="Password:"
                 type="password"
@@ -57,7 +61,8 @@ const Register = () => {
                 placeholder="password"
                 register={register}
             />
-             <button type="submit">Register</button>
+            {errors.password && <p>{errors.password.message}</p>}
+            <button type="submit">Register</button>
         </form>
     )
 };

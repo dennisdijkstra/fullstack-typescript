@@ -71,7 +71,7 @@ export class UserResolver {
                    errors: [
                        {
                            field: 'username',
-                           message: 'username already taken',
+                           message: 'Username and or email already taken',
                        }
                    ],
                };
@@ -99,7 +99,7 @@ export class UserResolver {
                 errors: [
                     {
                         field: 'usernameOrEmail',
-                        message: 'username and or email does not exist',
+                        message: 'Username and or email does not exist',
                     },
                 ],
             };
@@ -112,7 +112,7 @@ export class UserResolver {
                 errors: [
                     {
                         field: 'password',
-                        message: 'incorrect password',
+                        message: 'Incorrect password',
                     },
                 ],
             };
