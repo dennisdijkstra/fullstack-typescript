@@ -3,26 +3,17 @@ import { gql, useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { useRouter } from "next/router";
 import TextField from '../components/TextField';
-
-const REGISTER = gql`
-    mutation Register($options: UsernamePasswordInput!) {
-        register(options: $options) {
-            errors {
-                field
-                message
-            }
-            user {
-                id
-                username
-            }
-        }
-    }
-`;
+import { useRegisterMutation } from '../generated/graphql';
 
 const Register = () => {
-    const [registerUser, { data }] = useMutation(REGISTER);
+    const [registerUser, { data }] = useRegisterMutation();
     const router = useRouter();
-    const { register, handleSubmit, setError, clearErrors, errors } = useForm();
+    const {
+        register,
+        handleSubmit,
+        setError,
+        errors,
+    } = useForm();
 
     const onSubmit = async (data) => {
         const response = await registerUser({ variables: { options: data } });
