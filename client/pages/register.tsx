@@ -2,6 +2,7 @@ import React from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { useRouter } from "next/router";
+import TextField from '../components/TextField';
 
 const REGISTER = gql`
     mutation Register($options: UsernamePasswordInput!) {
@@ -35,33 +36,27 @@ const Register = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <label>
-                Username:
-                <input
-                    type="text"
-                    name="username"
-                    ref={register}
-                    placeholder="username"
-                />
-            </label>
-            <label>
-                Email:
-                <input
-                    type="text"
-                    name="email"
-                    ref={register}
-                    placeholder="email"
-                />
-            </label>
-            <label>
-                Password:
-                <input
-                    type="password"
-                    name="password"
-                    ref={register}
-                    placeholder="password"
-                />
-            </label>
+            <TextField
+                label="Username:"
+                type="text"
+                name="username"
+                placeholder="username"
+                register={register}
+            />
+            <TextField
+                label="Email:"
+                type="text"
+                name="email"
+                placeholder="email"
+                register={register}
+            />
+            <TextField
+                label="Password:"
+                type="password"
+                name="password"
+                placeholder="password"
+                register={register}
+            />
              <button type="submit">Register</button>
         </form>
     )
